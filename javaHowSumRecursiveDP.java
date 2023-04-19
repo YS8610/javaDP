@@ -50,7 +50,7 @@ public class javaHowSumRecursiveDP {
         temp.addAll(new ArrayList<>(result));
       }
     }
-    memo.put(target, new ArrayList<>( temp.stream().map(x -> new ArrayList<>(x)).collect(Collectors.toList()) ));
+    memo.put(target, new ArrayList<>( temp.stream().map(ArrayList::new).collect(Collectors.toList()) ));
     return temp;
   }
 
