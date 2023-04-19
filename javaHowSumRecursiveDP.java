@@ -28,35 +28,38 @@ public class javaHowSumRecursiveDP {
     return finalAns;
   }
 
-  static private Map<Integer,List<List<Integer>>> memo = new HashMap<>();
-  private List<List<Integer>> allCombinationMemo(int[] candidates, int target, List<Integer> ans){
+  static private List<List<Integer>> allCombinationDP(int[] candidates, int target, Map<Integer,List<List<Integer>>> memo ){
+    List<List<Integer>> temp = new ArrayList<>();
+    // Map<Integer,List<List<Integer>>> memo = new HashMap<>();
+    
     if (target <0) return null;
-    if (target ==0) return new ArrayList<>();
-    if (memo.containsKey(target)) return memo.get(target);
+    if (target ==0) {
+      List<List<Integer>> ansSet = new ArrayList<>();
+      ansSet.add(new ArrayList<>());
+      return ansSet;
+    }
 
-    for (int i=0, n = candidates.length; i<n ; i++ ){
+    for (int i=0, n=candidates.length; i<n;i++){
       int remainder = target - candidates[i];
-      ans.add(candidates[i]);
-      if (remainder <0) ans.remove(ans.size()-1);
-      List<List<Integer>> result = new javaHowSumRecursiveDP().allCombination(candidates,remainder,new ArrayList<>(ans));
-      if (result !=null){
-        if ( remainder ==0){
-          finalAns.add(new ArrayList<>(ans));
-          System.out.println(target);
+      List<List<Integer>> result = allCombinationDP(candidates, remainder,memo);
+      if (result != null){
+        for (int j =0, m=result.size(); j<m;j++) {
+          result.get(j).add( Integer.valueOf(candidates[i]) );
         }
-        ans.remove(ans.size()-1);
-        remainder = remainder + candidates[i];
+        temp.addAll(new ArrayList<>(result));
       }
     }
-    memo.put(target, finalAns);
-    return finalAns;
+    memo.put(target, new ArrayList<>(temp));
+    System.out.println(memo.toString());
+    return temp;
   }
 
+
+
   public static void main(String[] args) {
-    int[] candidates = {2,3,5};
-    int target = 20;
+    int[] candidates = {1,2,3};
+    int target = 4;
     
-    System.out.println(new javaHowSumRecursiveDP().allCombination(candidates, target, new ArrayList<>()) );
-    // System.out.println(new javaHowSumRecursiveDP().allCombinationMemo(candidates, target, new ArrayList<>()) );
+    System.out.println(allCombinationDP(candidates, target, new HashMap<>()) );
   }
 }
