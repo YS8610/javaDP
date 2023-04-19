@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class javaHowSumRecursiveDP {
   
@@ -30,7 +31,6 @@ public class javaHowSumRecursiveDP {
 
   static private List<List<Integer>> allCombinationDP(int[] candidates, int target, Map<Integer,List<List<Integer>>> memo ){
     List<List<Integer>> temp = new ArrayList<>();
-    // Map<Integer,List<List<Integer>>> memo = new HashMap<>();
     
     if (target <0) return null;
     if (target ==0) {
@@ -38,27 +38,27 @@ public class javaHowSumRecursiveDP {
       ansSet.add(new ArrayList<>());
       return ansSet;
     }
+    if (memo.containsKey(target)) return memo.get(target);
 
     for (int i=0, n=candidates.length; i<n;i++){
       int remainder = target - candidates[i];
       List<List<Integer>> result = allCombinationDP(candidates, remainder,memo);
       if (result != null){
         for (int j =0, m=result.size(); j<m;j++) {
-          result.get(j).add( Integer.valueOf(candidates[i]) );
+          result.get(j).add( candidates[i] );
         }
         temp.addAll(new ArrayList<>(result));
       }
     }
-    memo.put(target, new ArrayList<>(temp));
-    System.out.println(memo.toString());
+    memo.put(target, new ArrayList<>( temp.stream().map(x -> new ArrayList<>(x)).collect(Collectors.toList()) ));
     return temp;
   }
 
 
 
   public static void main(String[] args) {
-    int[] candidates = {1,2,3};
-    int target = 4;
+    int[] candidates = {2,3};
+    int target = 20;
     
     System.out.println(allCombinationDP(candidates, target, new HashMap<>()) );
   }
