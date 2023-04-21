@@ -2,8 +2,10 @@ package javaDP;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class javaHowSumRecursiveUniqueDp {
@@ -30,13 +32,21 @@ public class javaHowSumRecursiveUniqueDp {
         temp.addAll(new ArrayList<>(result));
       }
     }
-    memo.put(target, new ArrayList<>( temp.stream().map(ArrayList::new).collect(Collectors.toList()) ));
-    // System.out.println(memo.toString());
-    return temp;
+    Set<List<Integer>> setTemp = new HashSet<>();
+    for (List<Integer> a : temp){
+      a.sort( (m1,m2) -> m1.compareTo(m2));
+      setTemp.add(a);
+    }
+    List<List<Integer>> tempUnique = new ArrayList<>( setTemp.stream().map(ArrayList::new).collect(Collectors.toList()) );
+    memo.put(target, new ArrayList<>( setTemp.stream().map(ArrayList::new).collect(Collectors.toList()) ) );
+    System.out.println(memo.toString());
+    return tempUnique;
   }
   public static void main(String[] args) {
     int[] candidates = {1,2,3};
-    int target = 4;
+
+
+    int target = 5;
 
     System.out.println( allCombinationUniDP(candidates,target, new HashMap<>()));
   }
