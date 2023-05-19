@@ -39,6 +39,6 @@ public class javaHowSumRecursiveDP {
     int[] candidates = {1,2,3};
     int target = 6;
     
-    System.out.println(allCombinationDP(candidates, target, new HashMap<>()) );
+    System.out.println(allCombinationDP(candidates, target, new HashMap<>()).toString() );
   }
 }
