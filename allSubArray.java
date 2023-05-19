@@ -18,7 +18,18 @@ public class allSubArray {
       }
       return ans;
   }
+  private static List<List<Integer>> subsetsWithoutDup(int[] nums){
+    int n = nums.length;
+    List<List<Integer>> finalans = new ArrayList<>();
+    finalans.add(new ArrayList<>());
+    for (int i =1; i<=n;i++){
+      List<List<Integer>> ans = subarray(nums, i);
+      finalans.addAll( new ArrayList<>(ans) );
+    }
 
+    return finalans;
+  }
+  
   private static List<List<Integer>> subarray(int[] nums, int k){
     int n = nums.length;
     if (k==0) return new ArrayList<>();
@@ -34,18 +45,6 @@ public class allSubArray {
       set.add(new ArrayList<>(slider));
     }
     return new ArrayList<>(set);
-  }
-
-  private static List<List<Integer>> subsetsWithoutDup(int[] nums){
-    int n = nums.length;
-    List<List<Integer>> finalans = new ArrayList<>();
-    finalans.add(new ArrayList<>());
-    for (int i =1; i<=n;i++){
-      List<List<Integer>> ans = subarray(nums, i);
-      finalans.addAll( new ArrayList<>(ans) );
-    }
-
-    return finalans;
   }
 
   public static void main(String[] args) {
